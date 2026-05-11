@@ -29,5 +29,19 @@ public class Card
         this.existOrNot = true;
     }
     
+    //getters for private instance vars
+    
+    public byte getNum()
+    {
+        return this.cardNum;
+    }
+    
+    public String getSuit()
+    {
+        return this.cardSuit;
+    }
+    
+    
+    
     
 }

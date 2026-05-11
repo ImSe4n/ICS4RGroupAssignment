@@ -35,12 +35,46 @@ public class Deck
     //deckSize
     int deckSize;
     
+    //grid properties (width length)
+    int gridX;
+    int gridY;
+    
     
     
     //constructor to set up playing deck size (only size for now)
     Deck(int d)
     {
         this.deckSize = d;
+        
+        //find out appropriate grid size based on deck size
+        int[] gridValues = getGrid(this.deckSize);
+        this.gridX = gridValues[0];
+        this.gridY = gridValues[1];
+        
+        //change size of 2d array to match grid
+        this.gridOfCards = new Card[this.gridY][this.gridX];
+    }
+    
+    //method to find the best grid size (as balanced as possible) given the deck size
+    // x and y values ^
+    public static int[] getGrid(int deckSize)
+    {
+        //get square root
+        int x = (int)Math.sqrt(deckSize);
+        
+        //while loop to continously find the first divisor going lower and lower from the sqrt
+        while (deckSize % x != 0)
+        {
+            //as long as deckSize has a remainder from its sqrt keep going down till its a whole number
+            x--;
+        }
+        
+        //y axis
+        int y = deckSize / x; // N = x * y rearrange to find y
+        
+        //return width,height but use Math.max and math.min to ensure the biggest number is always 
+        //on the width (x) because its better for monitors
+        return new int[]{Math.max(x,y), Math.min(x,y)};
     }
     
     //generate random cards based on difficulty
@@ -49,11 +83,21 @@ public class Deck
         //grab difficulty from game class
         //byte diff = Game.getDifficulty();
         
+        //temp var to hold the current row we are on of the grid
+        int currentRowIndex = 0;
+        
+        //temp var to hold the current col we are on of the grid
+        int currentColIndex = 0;
+        
+        
+        
         //now run a loop based on HALF the deck size to generate random cards
         for(int i = 0; i<(this.deckSize/2); i++)
         {
             //boolean variable for the do while loop
             boolean cardFound = false;
+            
+            
             
             //do while loop to ensure a card that exists is being chosen
             do
@@ -67,12 +111,14 @@ public class Deck
                 //declare var for the card num
                 byte cardNum = deckOfCardsOrdered[suitIndex][numIndex];
                 
+                
+                
                 //now make sure this number is available first and hasnt been chosen already
                 if (cardNum != -1)
                 {
                     cardFound = true;
                     
-                    //find out the suit in string form to be passed to Card class for creating
+                    //temp var to hold the suit of the card
                     String suit;
                     switch(suitIndex)
                     {
@@ -93,15 +139,62 @@ public class Deck
                             break;
                         
                         default:
+                            suit = "None";
                             break;
                     }
                 
-                    //pass all variables to create a new card class and setup the card
-                
+                    //add cards into 2d array in order (will re-randomize later) based on grid size 
+                    
+                    //loop twice because we want duplicates of each card for the memory game concept
+                    for(int j = 0; j<2; j++)
+                    {
+                        
+                        //check if current col is larger than the specified width
+                        if ((currentColIndex+1) <= this.gridX)
+                        {
+                            
+                            
+                            //make a new card object and put it in the array
+                            gridOfCards[currentRowIndex][currentColIndex] = new Card(cardNum,suit,false);
+                        
+                            //increment the col index
+                            currentColIndex++;
+                        }
+                        else
+                        {
+                            //its higher than the width so increment row index and reset the col index
+                            currentRowIndex++;
+                            currentColIndex = 0;
+                        
+                            //make a new card object and put it in the array
+                            gridOfCards[currentRowIndex][currentColIndex] = new Card(cardNum,suit,false);
+                            
+                            //increment the col index
+                            currentColIndex++;
+                        }
+                        
+                        
+                    }   
+                    
                 }
             }while(!cardFound);
             
             
+        }
+        
+        outputGrid();
+    }
+    
+    //temp method to output the grid of cards (debugging purposes)
+    public void outputGrid()
+    {
+        for(int row = 0; row<gridOfCards.length;row++)
+        {
+            for (int col = 0; col<gridOfCards[row].length;col++)
+            {
+                System.out.print("( " + gridOfCards[row][col].getNum() + " )" + " ( " + gridOfCards[row][col].getSuit() + " )");
+            }
+            System.out.println();
         }
     }
 
