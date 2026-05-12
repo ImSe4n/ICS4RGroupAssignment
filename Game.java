@@ -14,14 +14,17 @@ import java.io.*;
 
 public class Game
 {
-    //constance
+    //constants
+    public final byte EASY = 1;
+    public final byte MEDIUM = 2;
+    public final byte HARD = 3;
     
     //instance variables
     private byte gameDifficulty;
-    private int highScore;
-    //private Deck deck;
-    //private HumanPlayer humanPlayer;
-    //private AIPlayer aiPlayer
+    private boolean waitingForFlipBack;
+    private Deck deck;
+    // private humanPlayer humanPlayer;
+    // private AIplayer aiPlayer;
     
     //main window for gui
     private JFrame mainFrame;
@@ -34,7 +37,8 @@ public class Game
     
     //Constructor
     public Game(){
-        //
+        //highScore
+        setupGame();
     }
     
     public void gameStart(){
@@ -98,8 +102,8 @@ public class Game
             gameDifficulty = (byte)(difficultyBox.getSelectedIndex() + 1);
             //humanPlayer = new HumanPlayer(name);
             //aiPlayer = new AIPlayer(difficulty);
-            //setupDeck();
-            //showGameScreen();
+            //setupGame();
+            showGameScreen();
         });
         
         gameMenu.add(gameTitle);
@@ -122,11 +126,32 @@ public class Game
     }
     
     private void showGameScreen(){
-        //
+        //TODO
     }
     
     private void showGameOverScreen(){
-        //
+        JPanel gameOverPanel = new JPanel();
+        gameOverPanel.setLayout(new BoxLayout(gameOverPanel, BoxLayout.Y_AXIS));
+        gameOverPanel.setBorder(BorderFactory.createEmptyBorder(60, 80, 60, 80));
+        gameOverPanel.setBackground(new Color(85, 85, 85)); //grey for now
+        
+        JLabel titleLabel = new JLabel("Game Over!");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 30)); //can change if wanted
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        //JLabel finalScoreLabel = new JLabel("Final Score: " + player.getScore());
+        
+        //JLabel finalMovesLabel = new JLabel("Total Moves: " + player.getNumMoves);
+        
+        //JLabel highScoreLabel = new JLabel();
+        
+        //JButton playAgainButton = new JButton();
+        
+        gameOverPanel.add(titleLabel);
+        
+        mainFrame.setContentPane(gameOverPanel);
+        mainFrame.revalidate();
     }
     
     private void handleCardClick(){
@@ -141,16 +166,38 @@ public class Game
         // //
     // }
     
-    // public boolean checkWin(stuff here){
-        // //
+    // public boolean checkWin(){
+        // // return numPairsFound == totalPairs;
     // }
     
     public void switchTurn(){
         //
     }
     
+    private void setupGame(){
+        int deckSize;
+        switch (gameDifficulty){
+            case EASY:
+                deckSize = 12;
+            break;
+            case HARD:
+                deckSize = 30;
+            break;
+            default:
+                deckSize = 16;
+            break;
+        }
+        
+        deck = new Deck(deckSize);
+        deck.generateCards();
+        
+        //more stuff later
+    }
+    
     private void endGame(){
-        //
+        // if (player.getScore() > highScore){
+            
+        // }
     }
     
     //file io methods
@@ -158,17 +205,13 @@ public class Game
         //
     }
     
-    // public int loadHighScore(){
-        // //
-    // }
+    public int loadHighScore(){
+        return 0;
+    }
     
     //encapsulation methods
     public byte getGameDifficulty(){
         return this.gameDifficulty;
-    }
-    
-    public int getHighScore(){
-        return this.highScore;
     }
     
     public void setGameDifficulty(byte g){
