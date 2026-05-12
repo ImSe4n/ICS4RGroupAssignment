@@ -7,6 +7,10 @@
  */
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+
 public class Card
 {
     //basic instance variables for info about the card
@@ -17,7 +21,12 @@ public class Card
     boolean isFlipped;
     
     //GUI variables
+    private JPanel cardPanel;
+    private JLabel cardNumLabel;
+    private JLabel cardSuitLabel;
     
+    //png paths for images for each suit icon
+    private String pathHeart = "";
     
     
     //constructor set up variables
