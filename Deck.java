@@ -5,6 +5,11 @@
  * @author (Atal Wardak)
  * @version (a version number or a date)
  */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 public class Deck
 {
     private Card[][] gridOfCards;
@@ -39,7 +44,8 @@ public class Deck
     int gridX;
     int gridY;
     
-    
+    //debugging var
+    private JFrame mainFrame;
     
     //constructor to set up playing deck size (only size for now)
     Deck(int d)
@@ -183,7 +189,14 @@ public class Deck
         }
         
         outputGrid();
+        displayDeck();
     }
+    
+    
+    
+    
+    
+    //=========Below are Debugging Methods only==============//
     
     //temp method to output the grid of cards (debugging purposes)
     public void outputGrid()
@@ -195,6 +208,31 @@ public class Deck
                 System.out.print("( " + gridOfCards[row][col].getNum() + " )" + " ( " + gridOfCards[row][col].getSuit() + " )");
             }
             System.out.println();
+        }
+    }
+    
+    public void displayDeck()
+    {
+        mainFrame = new JFrame("Card Memory Game");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setSize(1400, 1000);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setResizable(false);
+        
+        
+        
+        mainFrame.setVisible(true);
+        
+        //loop thru grid of cards now and add their panels to mainframe
+           for(int row = 0; row<gridOfCards.length;row++)
+        {
+            for (int col = 0; col<gridOfCards[row].length;col++)
+            {
+                Card card = gridOfCards[row][col];
+                card.getPanel().setLocation(500,500);
+                mainFrame.add(card.getPanel());
+            }
+    
         }
     }
 
