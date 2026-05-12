@@ -229,7 +229,7 @@ public class Deck
             for (int col = 0; col<gridOfCards[row].length;col++)
             {
                 Card card = gridOfCards[row][col];
-                card.getPanel().setLocation(500,500);
+                card.getPanel().setLocation(200+(col*150),150+(row*120));
                 mainFrame.add(card.getPanel());
             }
     
