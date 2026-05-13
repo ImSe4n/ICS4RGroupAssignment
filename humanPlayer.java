@@ -50,7 +50,8 @@ public class humanPlayer extends player
         try {
             //use their user name as the file name
             PrintWriter output = new PrintWriter(new FileWriter(player.userName + ".txt"));
-    
+            
+            //store player's name, password, and highestScore in the file
             output.println(player.getUserName());
             output.println(player.getUserPassword());
             output.println(player.highestScore);
@@ -59,6 +60,15 @@ public class humanPlayer extends player
         } catch (IOException e) {
             System.out.println("Error saving player information.");
         }
+    }
+    
+    //create a method for new users to create an account
+    public void createAccount(String userName, String password){
+        //create a humanPlayer variable to store the information
+        humanPlayer player = new humanPlayer(userName, password, 0);
+        
+        //store player information to file
+        storePlayer(player);
     }
     
     //create a method to upload information from the file by username and return the object
@@ -88,15 +98,54 @@ public class humanPlayer extends player
                 }
                 else{
                     System.out.println("User does not exist. Please enter a right username or password.");
+                    return null;
                 }
             
     
             }catch(IOException e){
                 System.out.println("User does not exist. Please enter a right username or password.");
+                return null;
             }
     
         }else{
             System.out.println("User does not exist. Please enter a right username or password.");
+            return null;
+        }
+    }
+    public void changePassword(String username, String newPassword){
+
+    File file = new File(username + ".txt");
+        //check if the file exists
+        if(file.exists()){
+    
+            try{
+    
+                // read old information
+                BufferedReader input = new BufferedReader(new FileReader(file));
+    
+                String userName = input.readLine();
+                String oldPassword = input.readLine();
+                int highestScore = Integer.parseInt(input.readLine());
+    
+                input.close();
+    
+                // rewrite file with new password
+                PrintWriter output = new PrintWriter(new FileWriter(file));
+    
+                output.println(userName);
+                output.println(newPassword);
+                output.println(highestScore);
+    
+                output.close();
+    
+                System.out.println("Password changed successfully.");
+    
+            }catch(IOException e){
+                System.out.println("Error changing password.");
+            }
+    
+        }else{
+            System.out.println("User does not exist.");
         }
     }
 }
