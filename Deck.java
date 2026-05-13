@@ -218,7 +218,7 @@ public class Deck
         mainFrame.setSize(1400, 1000);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setResizable(false);
-        
+        mainFrame.getContentPane().setLayout(null);
         
         
         mainFrame.setVisible(true);
@@ -229,7 +229,7 @@ public class Deck
             for (int col = 0; col<gridOfCards[row].length;col++)
             {
                 Card card = gridOfCards[row][col];
-                card.getPanel().setLocation(200+(col*150),150+(row*120));
+                card.getPanel().setLocation(200+(col*150),50+(row*175));
                 mainFrame.add(card.getPanel());
             }
     
