@@ -21,7 +21,6 @@ public class Game
     
     //instance variables
     private byte gameDifficulty;
-    private boolean waitingForFlipBack;
     private Deck deck;
     // private humanPlayer humanPlayer;
     // private AIplayer aiPlayer;
@@ -38,7 +37,7 @@ public class Game
     //Constructor
     public Game(){
         //highScore
-        setupGame();
+        this.gameDifficulty = MEDIUM;
     }
     
     public void gameStart(){
@@ -46,7 +45,7 @@ public class Game
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(600, 500);
         mainFrame.setLocationRelativeTo(null);
-        mainFrame.setResizable(false);
+        mainFrame.setResizable(true);
         
         showMenuScreen();
         
@@ -102,7 +101,7 @@ public class Game
             gameDifficulty = (byte)(difficultyBox.getSelectedIndex() + 1);
             //humanPlayer = new HumanPlayer(name);
             //aiPlayer = new AIPlayer(difficulty);
-            //setupGame();
+            setupGame();
             showGameScreen();
         });
         
@@ -126,7 +125,54 @@ public class Game
     }
     
     private void showGameScreen(){
-        //TODO
+        JPanel gamePanel = new JPanel(new BorderLayout());
+        gamePanel.setBackground(new Color(50, 120, 50)); //grey for now
+        
+        JPanel gameStatusBar = new JPanel();
+        gameStatusBar.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        gameStatusBar.setBackground(new Color(40, 90, 40)); //grey for now
+        
+        JLabel gameStatusLabel = new JLabel("Your Turn");
+        gameStatusLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        gameStatusLabel.setForeground(Color.WHITE);
+        
+        // add score label later
+        
+        //add num moves later
+        
+        //add the score and num moves to the status bar
+        gameStatusBar.add(gameStatusLabel);
+        
+        JPanel boardPanel = new JPanel();
+        boardPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        boardPanel.setBackground(new Color(50, 120, 50));
+        boardPanel.setLayout(new GridLayout(deck.gridY, deck.gridX, 15, 15));
+        
+        Card[][] gameGrid = deck.getDeck(); //need a getter from deck class
+        for (int row = 0; row < deck.gridY; row++) {
+            for (int col = 0; col < deck.gridX; col++) {
+                Card card = gameGrid[row][col];
+            
+                // Add the card's existing JPanel to the grid
+                JPanel cardPanel = card.getPanel();
+                boardPanel.add(cardPanel);
+            
+                // Attach the click listener to each card
+                // p.addMouseListener(new MouseAdapter() {
+                    // @Override
+                    // public void mouseClicked(MouseEvent e) {
+                        // handleCardClick(card);
+                    // }
+                // });
+            }
+        }
+        
+        
+        gamePanel.add(gameStatusBar, BorderLayout.NORTH);
+        gamePanel.add(boardPanel, BorderLayout.CENTER);
+        
+        mainFrame.setContentPane(gamePanel);
+        mainFrame.revalidate();
     }
     
     private void showGameOverScreen(){
@@ -146,9 +192,20 @@ public class Game
         
         //JLabel highScoreLabel = new JLabel();
         
-        //JButton playAgainButton = new JButton();
+        JButton playAgainButton = new JButton();
+        playAgainButton.setFont(new Font("SansSerif", Font.BOLD, 16));
+        playAgainButton.setForeground(Color.BLACK);
+        playAgainButton.setBackground(new Color(200, 160, 50));
+        playAgainButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playAgainButton.setFocusPainted(false);
+        playAgainButton.addActionListener(e -> {
+            showMenuScreen();    
+        });
+        
         
         gameOverPanel.add(titleLabel);
+        gameOverPanel.add(Box.createVerticalStrut(30));
+        gameOverPanel.add(playAgainButton);
         
         mainFrame.setContentPane(gameOverPanel);
         mainFrame.revalidate();
@@ -201,12 +258,12 @@ public class Game
     }
     
     //file io methods
-    public void saveHighestScore(){
+    public void userLogin(){
         //
     }
     
-    public int loadHighScore(){
-        return 0;
+    public void saveHighestScore(){
+        //
     }
     
     //encapsulation methods
