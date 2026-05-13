@@ -192,7 +192,11 @@ public class Deck
         displayDeck();
     }
     
-    
+    //getters
+    public Card[][] getDeck()
+    {
+        return gridOfCards;
+    }
     
     
     
