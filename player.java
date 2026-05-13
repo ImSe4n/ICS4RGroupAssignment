@@ -4,6 +4,5 @@ public class player
     //declare instance variables to store information during the gam
     int score;
     Boolean isTheirTurn;
-    byte numMoves;
-    
+    byte numMoves;  
 }
