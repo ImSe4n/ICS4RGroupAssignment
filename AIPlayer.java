@@ -118,6 +118,19 @@ public class AIPlayer extends player
 
         return choice;
     }
+    
+    // a method to remove eliminated cards from the memory
+    private void removeMatchedFromMemory()
+    {
+        for(int i = rememberedCards.size() - 1; i >= 0; i--)
+        {
+            if(rememberedCards.get(i).existOrNot == false){
+                rememberedCards.remove(i);
+                rememberedPositions.remove(i);
+            }
+        }
+    }   
+    
     //a method to operate the full play of AI's turn
     public boolean playTurn(Deck deck)
     {
@@ -167,16 +180,5 @@ public class AIPlayer extends player
             return false;
         }
     }
-    // a method to remove eliminated cards from the memory
-    private void removeMatchedFromMemory()
-    {
-        for(int i = rememberedCards.size() - 1; i >= 0; i--)
-        {
-            if(rememberedCards.get(i).existOrNot == false){
-                rememberedCards.remove(i);
-                rememberedPositions.remove(i);
-            }
-        }
-    }
-
+    
 }

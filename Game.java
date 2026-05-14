@@ -250,7 +250,14 @@ public class Game
         
         //more stuff later
     }
-    
+    public void AI(byte level, Deck deck){
+        //create a new AIplayer
+        AIPlayer ai = new AIPlayer(level);
+        
+        //ai choose two cards
+        ai.playTurn(deck);
+        
+    }
     private void endGame(){
         // if (player.getScore() > highScore){
             
@@ -262,9 +269,14 @@ public class Game
         //
     }
     
+    public void createAccount(){
+        //
+    }
+    
     public void saveHighestScore(){
         //
     }
+    
     
     //encapsulation methods
     public byte getGameDifficulty(){
