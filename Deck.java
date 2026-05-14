@@ -192,6 +192,39 @@ public class Deck
         displayDeck();
     }
     
+    
+    public Card[][] randomizeGrid(Card[][] gridOfCards)
+    {
+        //temp 2d array to hold the contents from the original 2d array
+        Card[][] tempDeck = new Card[this.gridY][this.gridX];;
+        
+        //move all items from original 2d array into temp array
+          for(int row = 0; row<gridOfCards.length;row++)
+        {
+            for (int col = 0; col<gridOfCards[row].length;col++)
+            {
+                tempDeck[row][col] = gridOfCards[row][col];
+            }
+           
+        }
+        
+        //now loop thru original 2d array again and randomize only the collumns to avoid infinite randomization
+        
+           for(int row = 0; row<gridOfCards.length;row++)
+        {
+            boolean uniqueIndexFound = false;
+            
+            do 
+            {
+                //row count = ??
+                int randomIndex = (int)(Math.random() * gridOfCards.length);;
+                
+            }while(!uniqueIndexFound);
+           
+        }
+        
+    }
+    
     //getters
     public Card[][] getDeck()
     {
