@@ -208,23 +208,27 @@ public class Game {
         // more pairs wins; if tied on pairs, fewer moves wins for the human
         int aiPairs = this.aiPlayer.score;
         String result;
-        if (this.humanPairsFound > aiPairs) {
+        if (this.humanPairsFound > aiPairs){
             result = "You Win!";
-        } else if (aiPairs > this.humanPairsFound) {
+        } 
+        else if (aiPairs > this.humanPairsFound){
             result = "AI Wins!";
-        } else if (this.numMoves <= aiPairs) {
+        } 
+        else if (this.numMoves <= aiPairs){
             // when tied on pairs and the human used fewer or equal moves,
             // the human wins the tiebreaker
             result = "You Win! (Tiebreaker)";
-        } else {
+        }
+        else{
             result = "AI Wins! (Tiebreaker)";
         }
 
         JLabel resultLabel = new JLabel(result);
         resultLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
-        if (result.startsWith("You Win")) {
+        if (result.startsWith("You Win")){
             resultLabel.setForeground(new Color(100, 230, 100));
-        } else {
+        }
+        else{
             resultLabel.setForeground(Color.WHITE);
         }
         resultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -273,10 +277,10 @@ public class Game {
 
     // row and col are passed so the AI can learn from each card the human reveals
     private void handleCardClick(Card clickedCard, int row, int col) {
-        if (this.waitingForFlipBack == true) {
+        if (this.waitingForFlipBack == true){
             return;
         }
-        if (clickedCard.existOrNot == false || clickedCard.isFlipped == true) {
+        if (clickedCard.existOrNot == false || clickedCard.isFlipped == true){
             return;
         }
 
@@ -287,7 +291,8 @@ public class Game {
 
         if (this.firstFlipped == null) {
             this.firstFlipped = clickedCard;
-        } else {
+        }
+        else {
             this.secondFlipped = clickedCard;
             checkMatch();
         }
@@ -352,9 +357,10 @@ public class Game {
     public boolean checkWin() {
         int totalPairsFound = this.humanPairsFound + this.aiPlayer.score;
         boolean allPairsFound;
-        if (totalPairsFound == this.totalPairs) {
+        if (totalPairsFound == this.totalPairs){
             allPairsFound = true;
-        } else {
+        }
+        else{
             allPairsFound = false;
         }
         return allPairsFound;
@@ -364,9 +370,10 @@ public class Game {
         this.humanPlayer.isTheirTurn = !this.humanPlayer.isTheirTurn;
         this.aiPlayer.isTheirTurn = !this.aiPlayer.isTheirTurn;
 
-        if (this.humanPlayer.isTheirTurn == true) {
+        if (this.humanPlayer.isTheirTurn == true){
             this.statusLabel.setText("Your Turn");
-        } else {
+        }
+        else{
             this.statusLabel.setText("AI Turn");
             performAITurn();
         }
@@ -378,7 +385,7 @@ public class Game {
         // cards
         Timer aiTimer = new Timer(1000, e -> {
             // check if the game already ended before letting the AI take its turn
-            if (checkWin() == true) {
+            if (checkWin() == true){
                 return;
             }
             //Ai make its choice
@@ -467,7 +474,7 @@ public class Game {
     private void endGame(){
         // lower moves is better, so save if this is the first game or if the player
         // beat their previous move count
-        if (this.humanPlayer.highestScore == 0 || this.numMoves < this.humanPlayer.highestScore) {
+        if (this.humanPlayer.highestScore == 0 || this.numMoves < this.humanPlayer.highestScore){
             this.humanPlayer.highestScore = this.numMoves;
         }
         saveHighestScore();
