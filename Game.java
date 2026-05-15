@@ -123,7 +123,17 @@ public class Game {
         this.mainFrame.pack();
         this.mainFrame.setLocationRelativeTo(null);
     }
-
+    
+    public void createUserAccount(String name, String password){
+        humanPlayer player = new humanPlayer();
+        player.createAccount(name, password);
+    }
+    
+    public humanPlayer userLogin(String name, String password){
+        humanPlayer player = new humanPlayer();
+        return player.uploadFromFile(name, password);
+    }
+    
     private void showGameScreen() {
         JPanel gamePanel = new JPanel(new BorderLayout());
         gamePanel.setBackground(new Color(50, 120, 50));
