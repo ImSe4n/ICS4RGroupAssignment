@@ -88,11 +88,16 @@ public class Card
         }
         
         //image icon for back of card
-        ImageIcon backIcon = new ImageIcon(this.pathBack);  
-            
+        ImageIcon backIcon = new ImageIcon(this.pathBack); 
+        
+        //scale it properly
+        Image scaledImage = backIcon.getImage().getScaledInstance(120, 170, Image.SCALE_SMOOTH);
+        
+        backIcon = new ImageIcon(scaledImage);
         //new label for back of card
         this.cardBackLabel = new JLabel(backIcon);
         this.cardBackLabel.setHorizontalAlignment(JLabel.CENTER);
+       
         this.cardBackLabel.setLayout(null);
         //the rest will be done in the setupcardPanel
         
@@ -364,6 +369,22 @@ public class Card
             //flip to front
             this.cardBackLabel.setVisible(false);
         }
+        
+    }
+    
+    //animation when ur hovering above card or not
+    public void cardSelect(boolean aboveCard)
+    {
+        if (aboveCard)
+        {
+                //change target and staring values
+        }
+        else
+        {
+            //change target and staring values
+        }
+        
+        //animate using timer        
         
     }
     
