@@ -27,6 +27,7 @@ public class Card
     private JLabel cardNumLabel2;
     private JLabel cardNumLabel3;
     private JLabel cardNumLabel4;
+    private JLabel cardBackLabel;
     
     private JLabel cardSuitLabel1;
     private JLabel cardSuitLabel2;
@@ -41,6 +42,8 @@ public class Card
     private static String pathSpade = "SpadeIcon.png";
     private static String pathClover = "CloverIcon.png";
     private static String pathDiamond = "DiamondIcon.png";
+    
+    private static String pathBack = "Back.png";
     
     //constants for non number indentifier
     final byte JACK_NUM = 11;
@@ -83,6 +86,17 @@ public class Card
                     break;
                 }
         }
+        
+        //image icon for back of card
+        ImageIcon backIcon = new ImageIcon(this.pathBack);  
+            
+        //new label for back of card
+        this.cardBackLabel = new JLabel(backIcon);
+        this.cardBackLabel.setHorizontalAlignment(JLabel.CENTER);
+        this.cardBackLabel.setLayout(null);
+        //the rest will be done in the setupcardPanel
+        
+        
         
         //setup GUI
         setupCardPanel();
@@ -308,6 +322,10 @@ public class Card
         this.cardSuitLabel4.setName("SuitIcon4");  
         
         
+        this.cardBackLabel.setSize(this.cardPanel.getWidth(),this.cardPanel.getHeight());
+        this.cardBackLabel.setVisible(false);
+        this.cardPanel.add(this.cardBackLabel);
+        
         //add it to the cardPanel
         this.cardPanel.add(this.cardNumLabel1);
         this.cardPanel.add(this.cardNumLabel2);
@@ -333,6 +351,20 @@ public class Card
         clone.setLocation(label.getX(),label.getY());
     
         return clone;
+    }
+    
+    public void flipCard(boolean back)
+    {
+        if (back)
+        {
+         this.cardBackLabel.setVisible(true);
+        }
+        else
+        {
+            //flip to front
+            this.cardBackLabel.setVisible(false);
+        }
+        
     }
     
     //getters for private instance vars

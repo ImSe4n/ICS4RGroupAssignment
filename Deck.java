@@ -10,6 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.security.SecureRandom;
 public class Deck
 {
     private Card[][] gridOfCards;
@@ -188,40 +192,52 @@ public class Deck
             
         }
         
+       randomizeGrid(gridOfCards);
         outputGrid();
         displayDeck();
+        
     }
     
     
     public Card[][] randomizeGrid(Card[][] gridOfCards)
     {
-        //temp 2d array to hold the contents from the original 2d array
-        Card[][] tempDeck = new Card[this.gridY][this.gridX];;
+        //this method will take the 2d array, convert it into an array list, use collections.shuffle then revert it back to a shuffled 2d array
+        ArrayList<Card> tempList = new ArrayList();
         
-        //move all items from original 2d array into temp array
-          for(int row = 0; row<gridOfCards.length;row++)
+        //this helps with randomization of the shuffle apparently
+        SecureRandom rnd = new SecureRandom();
+        
+        //move all elements from 2d arary to temp list
+        //row is an array because it has all the collumns vars in it
+        for (Card[] row : gridOfCards)
         {
-            for (int col = 0; col<gridOfCards[row].length;col++)
+            //now loop thru the rows
+            for (Card card : row)
             {
-                tempDeck[row][col] = gridOfCards[row][col];
+                tempList.add(card);
             }
-           
         }
         
-        //now loop thru original 2d array again and randomize only the collumns to avoid infinite randomization
+        //now shuffle it
         
-           for(int row = 0; row<gridOfCards.length;row++)
+        Collections.shuffle(tempList, rnd);
+       
+        
+        //put back into 2d array. do a standard nested for loop but an other variable outside of them that increments on every collumn iteration.
+        //use that other variable as the variable to grab from the array list and put it in the position of the row,col in the 2d array
+        int listIndex = 0;
+        for(int row = 0; row<gridOfCards.length;row++)
         {
-            boolean uniqueIndexFound = false;
-            
-            do 
+            for (int col = 0; col<gridOfCards[row].length;col++ )
             {
-                //row count = ??
-                int randomIndex = (int)(Math.random() * gridOfCards.length);;
-                
-            }while(!uniqueIndexFound);
-           
+                gridOfCards[row][col] = tempList.get(listIndex);
+                listIndex++;
+            }
         }
+        
+        
+        
+        return gridOfCards;
         
     }
     
@@ -268,6 +284,18 @@ public class Deck
                 Card card = gridOfCards[row][col];
                 card.getPanel().setLocation(200+(col*150),50+(row*175));
                 mainFrame.add(card.getPanel());
+                
+                //randomize back or front
+                int result = (int)(Math.random() * 2) + 1;
+                
+                if(result == 1)
+                {
+                    card.flipCard(true);
+                }
+                else
+                {
+                    card.flipCard(false);
+                }
             }
     
         }
