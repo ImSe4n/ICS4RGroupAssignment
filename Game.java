@@ -373,6 +373,7 @@ public class Game {
     }
 
     private void performAITurn() {
+        
         // wait 1 second so the player can see "AI Turn" before the AI starts picking
         // cards
         Timer aiTimer = new Timer(1000, e -> {
@@ -380,12 +381,19 @@ public class Game {
             if (checkWin() == true) {
                 return;
             }
-
-            int[][] choice = this.aiPlayer.chooseCards(this.deck);
-            Card[][] cardGrid = this.deck.getDeck();
-            Card card1 = cardGrid[choice[0][0]][choice[0][1]];
-            Card card2 = cardGrid[choice[1][0]][choice[1][1]];
-
+            //Ai make its choice
+            int[][] choice = aiPlayer.chooseCards(deck);
+            
+            //convert AI's choice into variablrs
+            
+            int row1 = choice[0][0];
+            int col1 = choice[0][1];
+            int row2 = choice[1][0];
+            int col2 = choice[1][1];
+            
+            Card card1 = deck.getDeck()[row1][col1];
+            Card card2 = deck.getDeck()[row2][col2];
+            
             this.aiPlayer.rememberCard(card1, choice[0][0], choice[0][1]);
             this.aiPlayer.rememberCard(card2, choice[1][0], choice[1][1]);
 
@@ -397,18 +405,18 @@ public class Game {
 
                 // wait before checking if they matched, so the player can see both cards
                 Timer resolve = new Timer(800, e3 -> {
-                    boolean matched = card1.getNum() == card2.getNum()
-                            && card1.getSuit().equals(card2.getSuit());
+                    boolean matched = card1.getNum() == card2.getNum()&& card1.getSuit().equals(card2.getSuit());
                     if (matched == true) {
                         card1.existOrNot = false;
                         card2.existOrNot = false;
                         this.aiPlayer.score++;
-                        if (checkWin() == true) {
+                        aiPlayer.removeMatchedFromMemory();
+                        if(checkWin() == true) {
                             endGame();
                             return;
                         }
                         performAITurn(); // AI found a match, so it gets another turn
-                    } else {
+                    }else {
                         flipCard(card1);
                         flipCard(card2);
                         switchTurn();
@@ -423,7 +431,7 @@ public class Game {
         aiTimer.setRepeats(false);
         aiTimer.start();
     }
-
+    
     // used for both starting a new game and playing again, so everything is reset
     // to a clean state
     private void setupGame() {
@@ -456,7 +464,7 @@ public class Game {
         this.deck.generateCards();
     }
 
-    private void endGame() {
+    private void endGame(){
         // lower moves is better, so save if this is the first game or if the player
         // beat their previous move count
         if (this.humanPlayer.highestScore == 0 || this.numMoves < this.humanPlayer.highestScore) {

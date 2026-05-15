@@ -71,6 +71,7 @@ public class AIPlayer extends player
                         int[][] choice =
                         {
                             rememberedPositions.get(i),
+                            
                             rememberedPositions.get(j)
                         };
                         return choice;
@@ -120,7 +121,7 @@ public class AIPlayer extends player
     }
     
     // a method to remove eliminated cards from the memory
-    private void removeMatchedFromMemory()
+    public void removeMatchedFromMemory()
     {
         for(int i = rememberedCards.size() - 1; i >= 0; i--)
         {
@@ -129,56 +130,6 @@ public class AIPlayer extends player
                 rememberedPositions.remove(i);
             }
         }
-    }   
-    
-    //a method to operate the full play of AI's turn
-    public boolean playTurn(Deck deck)
-    {
-        //Ai make its choice
-        int[][] choice = chooseCards(deck);
-        
-        //convert AI's choice into variablrs
-        
-        int row1 = choice[0][0];
-        int col1 = choice[0][1];
-        int row2 = choice[1][0];
-        int col2 = choice[1][1];
-        
-        //get the deck from the Deck class
-        Card[][] grid = deck.getDeck();
-        
-        //convert the choice into two cards
-        Card card1 = grid[row1][col1];
-        Card card2 = grid[row2][col2];
-        
-        //output Ai's choice
-        System.out.println("AI chose:");
-        System.out.println(row1 + ", " + col1 + ": " + card1.getNum() + " of " + card1.getSuit());
-        System.out.println(row2 + ", " + col2 + ": " + card2.getNum() + " of " + card2.getSuit());
-        
-        //remember Ai's choice
-        rememberCard(card1, row1, col1);
-        rememberCard(card2, row2, col2);
-        
-        //check if AI got two same card, if so, eliminate those card and add score for AI
-        if(card1.getNum() == card2.getNum() && card1.getSuit().equals(card2.getSuit()))
-        {
-            System.out.println("AI found a match!");
-
-            card1.existOrNot = false;
-            card2.existOrNot = false;
-
-            this.score++;
-
-            removeMatchedFromMemory();
-
-            return true;
-        }
-        else
-        {
-            System.out.println("AI did not find a match.");
-            return false;
-        }
-    }
+    }  
     
 }
