@@ -9,7 +9,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+//hi
 public class Game {
     public final byte EASY = 1;
     public final byte MEDIUM = 2;
